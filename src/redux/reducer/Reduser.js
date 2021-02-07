@@ -3,8 +3,10 @@ import {
   DELETENUMBER,
   SETWARNING,
   SETFILTER,
+  GETNEWNUMBER,
 } from "../constant/constant";
 import { createReducer } from "@reduxjs/toolkit";
+import { getContacts } from "../contacts-selectors.js";
 
 const initialState = {
   contacts: [],
@@ -12,40 +14,16 @@ const initialState = {
   warning: "",
 };
 
-// const Reducer = (state = { ...initialState }, action) => {
-//   switch (action.type) {
-//     case ADDNEWNUMBER:
-//       return { ...state, contacts: [...state.contacts, action.payload] };
-
-//     case DELETENUMBER:
-//       return {
-//         ...state,
-//         contacts: [
-//           ...state.contacts.filter((item) => item.id !== action.payload),
-//         ],
-//       };
-//     case SETFILTER:
-//       return {
-//         ...state,
-//         filter: action.payload,
-//       };
-//     case SETWARNING:
-//       return {
-//         ...state,
-//         warning: action.payload,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
 const Reducer = createReducer(
   { ...initialState },
   {
     [ADDNEWNUMBER]: (state, action) => ({
       ...state,
-      contacts: [...state.contacts, action.payload],
+      contacts: [...getContacts(state), action.payload],
+    }),
+    [GETNEWNUMBER]: (state, action) => ({
+      ...state,
+      contacts: [...action.payload],
     }),
 
     [DELETENUMBER]: (state, action) => {

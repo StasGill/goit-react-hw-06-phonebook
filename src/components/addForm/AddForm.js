@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   addNewNumber,
   deleteNumber,
   setFilter,
   setWarning,
 } from "../../redux/actions/actions";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import {
+  addNewNumberOperation,
+  getNumberOperation,
+} from "../../redux/operations/operations";
 
 const initialState = {
   name: "",
@@ -14,6 +18,8 @@ const initialState = {
 
 const AddForm = ({ contacts, addNumber, deleteNumber, setWarning }) => {
   const [state, setState] = useState({ ...initialState });
+
+  const dispatch = useDispatch();
 
   const onChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -32,15 +38,16 @@ const AddForm = ({ contacts, addNumber, deleteNumber, setWarning }) => {
         name: state.name,
         number: state.number,
       };
+      dispatch(addNewNumberOperation(contactObject));
       addNumber(contactObject);
       setState({ ...initialState });
       setWarning("off");
-      // localStorage.setItem(
-      //   "phoneBook",
-      //   JSON.stringify(contacts)
-      // );
     }
   };
+
+  useEffect(() => {
+    dispatch(getNumberOperation());
+  }, [dispatch]);
 
   return (
     <div className="addPanel">

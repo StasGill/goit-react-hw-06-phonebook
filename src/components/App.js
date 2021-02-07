@@ -9,6 +9,7 @@ import {
   deleteNumber,
   setFilter,
 } from "../redux/actions/actions";
+import { deleteNumberOperation } from "../../src/redux/operations/operations";
 
 class App extends Component {
   setNewFilter = (e) => {
@@ -17,12 +18,10 @@ class App extends Component {
 
   handleDelete = (e) => {
     const id = e.target.name;
+    this.props.deleteApiNumber(id);
     this.props.deleteNumber(id);
-    localStorage.setItem("phoneBook", JSON.stringify(this.props.contacts));
   };
-  handleFilter = (e) => {
-    this.setState({ filter: e.target.value });
-  };
+
   filter = () => {
     if (this.props.contacts) {
       const filtered = this.props.contacts.filter((item) =>
@@ -33,25 +32,6 @@ class App extends Component {
       return;
     }
   };
-  // componentDidMount() {
-
-  //   const dataLocal = JSON.parse(localStorage.getItem("phoneBook"));
-  //   console.log(dataLocal)
-  //   if (dataLocal) {
-  //     this.props.addNumber(dataLocal);
-  //   } else {
-  //     return;
-  //   }
-  // }
-  // componentDidUpdate() {
-  //   // localStorage.setItem("phoneBook", JSON.stringify(this.state.contacts));
-  //   const dataLocal = JSON.parse(localStorage.getItem("phoneBook"));
-  //   if (dataLocal) {
-  //     this.props.contacts({ contacts: [...dataLocal] });
-  //   } else {
-  //     return;
-  //   }
-  // }
 
   render() {
     return (
@@ -121,6 +101,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteNumber: (id) => {
       dispatch(deleteNumber(id));
+    },
+    deleteApiNumber: (id) => {
+      dispatch(deleteNumberOperation(id));
     },
     setFilter: (id) => {
       dispatch(setFilter(id));

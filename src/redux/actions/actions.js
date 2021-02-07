@@ -4,6 +4,7 @@ import {
   DELETENUMBER,
   SETFILTER,
   SETWARNING,
+  GETNEWNUMBER,
 } from "../constant/constant";
 import { createAction } from "@reduxjs/toolkit";
 
@@ -31,6 +32,9 @@ export const addNewNumber = createAction(ADDNEWNUMBER, (data) => ({
     ...data,
     id: uuidv4(),
   },
+}));
+export const getNumber = createAction(GETNEWNUMBER, (data) => ({
+  payload: [...data],
 }));
 export const deleteNumber = createAction(DELETENUMBER);
 export const setFilter = createAction(SETFILTER);
